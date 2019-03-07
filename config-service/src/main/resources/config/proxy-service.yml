@@ -21,3 +21,6 @@ zuul:
     organization:
       path: /organization/**
       serviceId: organization-service
+    authorization:
+      path: /authorization/**
+      serviceId: authorization_service
