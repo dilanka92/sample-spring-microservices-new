@@ -35,3 +35,9 @@ spring:
             - Path=/organization/**
           filters:
             - RewritePath=/organization/(?<path>.*), /$\{path}
+        - id: authorization_service
+          uri: lb://authorization_service
+          predicates:
+            - Path=/authorization/**
+          filters:
+            - RewritePath=/authorization/(?<path>.*), /$\{path}
