@@ -4,6 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -14,16 +16,16 @@ import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
 
-/**
- * Created by ahmed on 21.5.18.
- */
 @Configuration
 @EnableAuthorizationServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Import(WebSecurityConfiguration.class)
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
@@ -67,5 +69,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .approvalStore(approvalStore())
                 .authorizationCodeServices(authorizationCodeServices())
                 .tokenStore(tokenStore());
+    }
+
+    @Bean
+    public OAuth2AccessDeniedHandler oauthAccessDeniedHandler() {
+        return new OAuth2AccessDeniedHandler();
     }
 }

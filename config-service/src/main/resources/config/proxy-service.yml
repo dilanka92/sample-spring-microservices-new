@@ -24,3 +24,6 @@ zuul:
     authorization:
       path: /authorization/**
       serviceId: authorization_service
+    zuul:
+      path: /zuul/**
+      serviceId: zuul-server

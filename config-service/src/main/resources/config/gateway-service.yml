@@ -41,3 +41,9 @@ spring:
             - Path=/authorization/**
           filters:
             - RewritePath=/authorization/(?<path>.*), /$\{path}
+        - id: zuul-server
+          uri: lb://zuul-server
+          predicates:
+            - Path=/zuul/**
+          filters:
+            - RewritePath=/zuul/(?<path>.*), /$\{path}
